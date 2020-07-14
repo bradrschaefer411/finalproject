@@ -1,18 +1,21 @@
+var express = require('express')
+var cors = require('cors')
+var bodyParser = require('body-parser')
+var app = express()
+var port = process.env.PORT || 3000
 
+app.use(bodyParser.json())
+app.use(cors())
+app.use(
+  bodyParser.urlencoded({
+    extended: false
+  })
+)
 
-var express = require('express');
-var app = express();
-var bodyparser = require('body-parser');
-var fetch = require('node-fetch');
+var Users = require('./routes/Users')
 
-//add the index route to handle requests to the main page
+app.use('/users', Users)
 
-app.get('/', function(request,request){
-console.log('hit the index page');
-});
-
-//start the server on port 3000 of the host.
-
-app.listen('3000', function(){
-console.log('listening on port 3000... and localhost');
-});
+app.listen(port, function() {
+  console.log('Server is running on port: ' + port)
+})
